@@ -34,6 +34,7 @@ class Connection implements Runnable {
                 session.input.send(input);
             } while (!"".equals(input));
             socket.close();
+            chat.leaves.send(session);
         } catch (Exception e) {
             e.printStackTrace();
         }
