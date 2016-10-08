@@ -4,6 +4,7 @@ import javaslang.collection.HashMap;
 import javaslang.collection.Map;
 import javaslang.collection.Seq;
 import nz.sodium.Cell;
+import nz.sodium.Lambda1;
 import nz.sodium.Stream;
 import nz.sodium.StreamSink;
 
@@ -14,7 +15,8 @@ public class Chat {
 
     Chat() {
         Cell<Map<String, Session>> sessions = joins
-                .accum(HashMap.empty(), (session, map) -> map.put(session.nick, session));
+                .<Lambda1<Map<String, Session>, Map<String, Session>>>map(session -> map -> map.put(session.nick, session))
+                .accum(HashMap.empty(), (f, map) -> f.apply(map));
         Cell<Stream<Message>> mergedMessages =
                 sessions.map(m -> mergeStreams(m.values().map(session -> session.messages)));
         Stream<Message> messages = Cell.switchS(mergedMessages);
