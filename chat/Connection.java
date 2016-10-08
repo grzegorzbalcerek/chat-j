@@ -25,10 +25,12 @@ class Connection implements Runnable {
             pw.print("Type your name and press ENTER: ");
             pw.flush();
             String nick = br.readLine();
+            Session session = new Session(nick, chat);
+            session.output.listen(message -> pw.println(message));
             String input;
             do {
                 input = br.readLine();
-                pw.println(input);
+                session.input.send(input);
             } while (!"".equals(input));
             socket.close();
         } catch (Exception e) {
