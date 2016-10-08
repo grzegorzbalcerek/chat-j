@@ -27,6 +27,7 @@ class Connection implements Runnable {
             String nick = br.readLine();
             Session session = new Session(nick, chat);
             session.output.listen(message -> pw.println(message));
+            chat.joins.send(session);
             String input;
             do {
                 input = br.readLine();

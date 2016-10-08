@@ -11,7 +11,7 @@ class Session {
     Session(String nick, Chat chat) {
         this.nick = nick;
         messages = input.filter(msg -> !"".equals(msg)).map(msg -> new Message(nick, msg));
-        this.output = messages;
+        this.output = chat.output;
     }
 
 }
