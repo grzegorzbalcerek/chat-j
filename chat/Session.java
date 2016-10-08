@@ -4,10 +4,14 @@ import nz.sodium.Stream;
 import nz.sodium.StreamSink;
 
 class Session {
-    public Stream<String> output;
+    public String nick;
+    public Stream<Message> output;
     public StreamSink<String> input = new StreamSink<>();
+    public Stream<Message> messages;
     Session(String nick, Chat chat) {
-        this.output = input;
+        this.nick = nick;
+        messages = input.filter(msg -> !"".equals(msg)).map(msg -> new Message(nick, msg));
+        this.output = messages;
     }
 
 }
